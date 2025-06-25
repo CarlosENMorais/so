@@ -1,0 +1,155 @@
+https://github.com/wedsonaf/metal_c
+
+no stack protector - comando para usar em versões de gcc mais novas
+
+varsão antiga do main.c:
+
+Adicionar "-d int" ao final da linha 5 do make file para mostrar quais exceptions e os endereço das variáveis.
+
+
+
+
+Pratica: Remover Mapeamento
+    - Modificar prática anterior;
+    - Ler conteúdo de ptr2;
+    - Remover o mapeamento;
+    - Ler o conteúdo de ptr2 novamente;
+
+Solução:
+    int global = 0x10;
+    void teste(void){
+        int *ptr1 = &global;
+        int *ptr2 = (int *)((char *)ptr1 + 4 * 1024 * 1024);
+
+        raiz[1] = (1 << 7) | (1 << 1) | (1 << 0 );
+        
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+
+        raiz[1] = 0;
+
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+    }
+
+Comentário:
+    Quando acessamos um endereçõ virtual, seu mapeamento é armazenado no cache (TLB)
+    se o mapeamento mudar, o cache permance intacto. O cache é cunsultado primeiro, 
+    se o mapeamento não existir, então ele faz o mapeamento tradicional a partir das tabelas.
+
+--------------------------------------------------------------------------------------
+
+Prática: Invadir o Buffer de Mapeamento
+    - Modificar exemplo anterior;
+    - Após remover o mapeamento, invalidar o TLB.
+        Função: invlpg();
+    - Qual o resultado;
+
+Solução:
+    int global = 0x10;
+    void teste(void){
+        int *ptr1 = &global;
+        int *ptr2 = (int *)((char *)ptr1 + 4 * 1024 * 1024);
+
+        raiz[1] = (1 << 7) | (1 << 1) | (1 << 0 );
+        
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+
+        raiz[1] = 0;
+        invlpg(*ptr2);
+
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+    }
+
+--------------------------------------------------------------------------------------
+
+Prática: Instalar Tratador de Exceção
+    - Baixar a última versão do repoitório
+        Incluindo a função init_idt()
+    - Chamar a função init_idt()
+        Instalar um tratador de exceção para falhas de paginação
+    - Qual é o resultado?
+
+Solução:
+    int global = 0x10;
+    void teste(void){
+        int *ptr1 = &global;
+        int *ptr2 = (int *)((char *)ptr1 + 4 * 1024 * 1024);
+
+        raiz[1] = (1 << 7) | (1 << 1) | (1 << 0 );
+        
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+
+        raiz[1] = 0;
+
+        puts("Valor de ptr2: ");
+        put_hex(*ptr2);
+        puts("\n");
+    }
+
+--------------------------------------------------------------------------------------
+
+Prática:personalizar tratador de exceção
+    - Implementar uma função com o seguinte nome a protótipo
+        void page_fault_handler(struct state *s)
+    - Colocarum corpo que imprime "Falha de Paginação"
+    - Qual o resultado?
+
+Solução:
+    void page_fault_handler(struct state *s){
+        puts("Falha de Paginação: error=");
+        put_hex(s-error);
+        puts(", eip=");
+        put_hex(s->eip);
+        puts(", cr2=");
+        put_hex(s->cr2);
+        puts("\n");
+
+        raiz[1] |= 1 << 1;
+    }
+
+Desafio:
+    Modificar a função para que ela resolva o erro sem modificar raiz[1], 
+    apenas com o state *s;
+
+Solução:
+    void page_fault_handler(struct state *s){
+        puts("Falha de Paginação: error=");
+        put_hex(s->error);
+        puts(", eip=");
+        put_hex(s->eip);
+        puts(", cr2=");
+        put_hex(get_cr2());
+        puts("\n");
+
+        s->ebx = 0x3fdff8;
+    }
+--------------------------------------------------------------------------------------
+
+Prática: Mostrar detalhes sobre as falhas
+    -Registrador cr2
+
+--------------------------------------------------------------------------------------
+
+Prática: Modificando a Tabela no Tratador
+    - Habilitar escrita no segundo bloco de 4MB
+        Ligar bit 1 de raiz[1]
+    - Qual o resultado?
+
+Solução:
+
+======================================================================================
+
+
+
+
+
+    

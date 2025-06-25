@@ -1,0 +1,3 @@
+[submodule "2_unidade/metal_c"]
+	path = 2_unidade/metal_c
+	url = https://github.com/wedsonaf/metal_c.git

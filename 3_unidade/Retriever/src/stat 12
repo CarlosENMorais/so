@@ -1,0 +1,15 @@
+Inode: 7   Type: regular    Mode:  0600   Flags: 0x0
+Generation: 0    Version: 0x00000000:00000000
+User:     0   Group:     0   Project:     0   Size: 67383296
+File ACL: 0
+Links: 1   Blockcount: 8
+Fragment:  Address: 0    Number: 0    Size: 0
+ ctime: 0x68749a3a:00000000 -- Mon Jul 14 02:48:42 2025
+ atime: 0x68749a3a:00000000 -- Mon Jul 14 02:48:42 2025
+ mtime: 0x68749a3a:00000000 -- Mon Jul 14 02:48:42 2025
+crtime: 0x68749a3a:00000000 -- Mon Jul 14 02:48:42 2025
+Size of extra inode fields: 32
+BLOCKS:
+(DIND):53, (IND):3, (IND):4, (IND):5
+TOTAL: 4
+

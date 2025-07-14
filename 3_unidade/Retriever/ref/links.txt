@@ -1,0 +1,3 @@
+https://maplecircuit.dev/linux/fs/ext/ext2.html
+
+https://www.nongnu.org/ext2-doc/ext2.html#s-log-block-size

@@ -1,0 +1,52 @@
+## PROGRAMA DE RECUPERAÇÃO DE ARQUIVOS ##
+
+
+1 - Escrever arquivos no disco
+    Não tem autorização para escrever.
+        - Escrever com sudo!
+2 - Apagar arquivos no
+
+3 - Ler arquivos apagados - $retriever disk.img
+    1- Faz um open no modo somente escrita da imagem do disco.
+        Se o disco for muito grande, ele vai ficar todo na memória?
+
+    2- indentifica o superbloco vê o tamanho dos blocos
+        (supondo que tenha apenas um grupo de blocos)
+
+    3- identifico o inode bitmap faço uma listas dos inodes livres //PULEI
+
+    4- identifico a tabela de inodes e identifico os inodes deletados (del_time != 0)
+
+    5- seleciono apenas os que são arquivos, ignorando diretórios e links;
+
+    6- em outro disco, crio um diretório chamado recovered.
+
+    7- para cada inode filtrado, crio um arquivo e copio o conteúdo do bloco de dados.
+        preciso fazer isso manualmente??
+        saber se os blocos de dados estão sequenciais
+            se sim posso usar o dd para copiar os dados para um novo arquivo.
+            se não manualmente!
+
+    resultado: novo diretório cheio de arquivos com nomes zoados e com oo conteúdo questionável.
+    -> podem estar sobre-escritos.
+
+    como recuperar nomes.
+        percorrer inodes de diretórios olhando em cada um se existe uma referência para o inode do arquivo que foi recuperado. fazer isso para cada arquivo recuperado.
+        -> pega apenas o primeiro nomes, e se houver mais de uma referência?
+
+    funciona bem para discos pequenos. mas se for um disco grande?
+    -> vai ficar vom uma imagem gigante sem necessidade.
+    -> encontrar um jeito de analizar apenas os intervalos importantes do disco.
+
+    Se a formatação do disco estiver corrompida?
+    -> Ainda assim será possível montar o disco?
+    -> Identificar o Superblock do disco e a partir daí extrati informações
+    -> Encontrar cópias do Superblock pelo disco. Como fazer isso?
+
+
+    12 blocos diretos  -> bs*12
+    1 bloco indireto   -> bs²/4
+    1 bloco duplo ind. -> bs³/4²
+    1 bloco tripo ind. -> bs⁴/4³
+
+
